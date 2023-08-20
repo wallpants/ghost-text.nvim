@@ -1,6 +1,6 @@
 import { attach } from "neovim";
 import { isServerRunning } from "./is-running";
-import { startServer } from "./start-server";
+import { startServer } from "./server";
 
 const PORT = 4001;
 const socket = process.argv[2];
