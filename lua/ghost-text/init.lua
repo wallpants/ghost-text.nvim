@@ -11,12 +11,17 @@ local print_cmd = function(source)
 	end
 end
 
----@class plugin_opts
+---@class opts
 ---@field autostart boolean
+---@field port number
 --
----@param opts plugin_opts
+---@param opts opts
 M.setup = function(opts)
-	local default_opts = { autostart = true }
+	---@type opts
+	local default_opts = {
+		autostart = true,
+		port = 4001,
+	}
 	opts = vim.tbl_deep_extend("keep", opts, default_opts)
 
 	vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {
@@ -37,7 +42,7 @@ M.setup = function(opts)
 	local plugin_root = vim.fn.fnamemodify(current_file_path, ":p:h:h:h") .. "/"
 	local serverlist = vim.fn.serverlist()
 	local nvim_socket = serverlist[1]
-	local shell_command = "node " .. plugin_root .. "dist/index.js " .. nvim_socket
+	local shell_command = "node " .. plugin_root .. "dist/index.js " .. nvim_socket .. " " .. opts.port
 
 	local function start_server()
 		vim.fn.jobstart(shell_command, {
