@@ -1,6 +1,6 @@
 local M = {}
 
-local enable_logging = false
+local enable_logging = true
 
 ---@param source string
 local print_cmd = function(source)
@@ -29,6 +29,9 @@ M.setup = function(opts)
 	local serverlist = vim.fn.serverlist()
 	local nvim_socket = serverlist[1]
 	local shell_command = "node " .. plugin_root .. "dist/index.js " .. nvim_socket .. " " .. opts.port
+
+	-- set vars to be read and used by node-client
+	vim.g.gc_ghost_text_port = opts.port
 
 	local function start_server()
 		vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {

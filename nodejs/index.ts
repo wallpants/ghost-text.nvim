@@ -16,6 +16,9 @@ async function isServerRunning() {
 async function main() {
     if (await isServerRunning()) return;
     const nvim = attach({ socket });
+    const val = await nvim.getVar("gc_ghost_text_port");
+    console.log("typeof val: ", typeof val);
+    console.log("val: ", val);
     await startServer(nvim, PORT);
 }
 
