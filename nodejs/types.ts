@@ -1,4 +1,4 @@
-export type EventArgs = {
+export type NeovimNotificationArgs = {
     id: number;
     match: string;
     buf: number;
