@@ -24,20 +24,6 @@ M.setup = function(opts)
 	}
 	opts = vim.tbl_deep_extend("keep", opts, default_opts)
 
-	vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {
-		pattern = { "*.ghost" },
-		callback = function(args)
-			vim.rpcnotify(0, "ghost-text-change", args)
-		end,
-	})
-
-	vim.api.nvim_create_autocmd({ "BufDelete" }, {
-		pattern = { "*.ghost" },
-		callback = function(args)
-			vim.rpcnotify(0, "ghost-buffer-delete", args)
-		end,
-	})
-
 	local current_file_path = debug.getinfo(1, "S").source:sub(2)
 	local plugin_root = vim.fn.fnamemodify(current_file_path, ":p:h:h:h") .. "/"
 	local serverlist = vim.fn.serverlist()
@@ -45,6 +31,20 @@ M.setup = function(opts)
 	local shell_command = "node " .. plugin_root .. "dist/index.js " .. nvim_socket .. " " .. opts.port
 
 	local function start_server()
+		vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {
+			pattern = { "*.ghost" },
+			callback = function(args)
+				vim.rpcnotify(0, "ghost-text-change", args)
+			end,
+		})
+
+		vim.api.nvim_create_autocmd({ "BufDelete" }, {
+			pattern = { "*.ghost" },
+			callback = function(args)
+				vim.rpcnotify(0, "ghost-buffer-delete", args)
+			end,
+		})
+
 		vim.fn.jobstart(shell_command, {
 			on_stdout = print_cmd("stdout"),
 			on_stderr = print_cmd("stderr"),
