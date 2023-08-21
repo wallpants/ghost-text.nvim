@@ -1,0 +1,1 @@
+[] - allow user to specify filetype per url
