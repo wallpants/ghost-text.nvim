@@ -32,14 +32,14 @@ M.setup = function(opts)
 
 	local function start_server()
 		vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {
-			pattern = { "*.ghost" },
+			pattern = { "*.ghost-text" },
 			callback = function(args)
 				vim.rpcnotify(0, "ghost-text-change", args)
 			end,
 		})
 
 		vim.api.nvim_create_autocmd({ "BufDelete" }, {
-			pattern = { "*.ghost" },
+			pattern = { "*.ghost-text" },
 			callback = function(args)
 				vim.rpcnotify(0, "ghost-buffer-delete", args)
 			end,

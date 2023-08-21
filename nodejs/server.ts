@@ -57,7 +57,7 @@ export async function startServer(nvim: NeovimClient, PORT: number) {
             if (!buff) {
                 // create buff on first message
                 buff = (await nvim.createBuffer(true, true)) as AsyncBuffer;
-                buff.name = message.url + ".ghost";
+                buff.name = message.url + ".ghost-text";
                 nvim.buffer = buff;
             }
 
