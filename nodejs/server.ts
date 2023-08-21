@@ -4,7 +4,7 @@ import { type AsyncBuffer } from "neovim/lib/api/Buffer";
 import { WebSocketServer } from "ws";
 import { type GhostMessage } from "./types";
 
-const RPC_EVENTS = ["ghost-text-change", "ghost-buffer-close"] as const;
+const RPC_EVENTS = ["ghost-text-change", "ghost-buffer-delete"] as const;
 
 export async function startServer(nvim: NeovimClient, PORT: number) {
     await nvim.lua('print("starting GhostText server")');
@@ -38,7 +38,7 @@ export async function startServer(nvim: NeovimClient, PORT: number) {
                     ws.send(JSON.stringify({ text }));
                 }
 
-                if (event === "ghost-buffer-close") {
+                if (event === "ghost-buffer-delete") {
                     ws.close();
                 }
             },
