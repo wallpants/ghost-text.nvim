@@ -29,7 +29,7 @@ M.setup = function(opts)
 	vim.api.nvim_create_autocmd({ "BufDelete" }, {
 		pattern = { "*.ghost" },
 		callback = function(args)
-			vim.rpcnotify(0, "ghost-buffer-close", args)
+			vim.rpcnotify(0, "ghost-buffer-delete", args)
 		end,
 	})
 
