@@ -2,7 +2,7 @@ import { createServer } from "http";
 import { type NeovimClient } from "neovim";
 import { type AsyncBuffer } from "neovim/lib/api/Buffer";
 import { WebSocketServer } from "ws";
-import { type GhostMessage } from "./types";
+import { type EventArgs, type GhostMessage } from "./types";
 
 const RPC_EVENTS = ["ghost-text-change", "ghost-buffer-delete"] as const;
 
@@ -30,10 +30,9 @@ export async function startServer(nvim: NeovimClient, PORT: number) {
 
         nvim.on(
             "notification",
-            async (event: (typeof RPC_EVENTS)[number], _args: unknown[]) => {
+            async (event: (typeof RPC_EVENTS)[number], [_arg]: EventArgs[]) => {
                 if (event === "ghost-text-change") {
                     // set browser lines on buffer change
-                    // const arg = args[0] as EventArgs;
                     const text = (await buff?.lines)?.join("\n") ?? "";
                     ws.send(JSON.stringify({ text }));
                 }

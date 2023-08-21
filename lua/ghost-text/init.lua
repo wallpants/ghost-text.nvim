@@ -24,14 +24,14 @@ M.setup = function(opts)
 	}
 	opts = vim.tbl_deep_extend("keep", opts, default_opts)
 
+	-- set vars to be read and used by node-client
+	vim.g.gc_ghost_text_port = opts.port
+
 	local current_file_path = debug.getinfo(1, "S").source:sub(2)
 	local plugin_root = vim.fn.fnamemodify(current_file_path, ":p:h:h:h") .. "/"
 	local serverlist = vim.fn.serverlist()
 	local nvim_socket = serverlist[1]
-	local shell_command = "node " .. plugin_root .. "dist/index.js " .. nvim_socket .. " " .. opts.port
-
-	-- set vars to be read and used by node-client
-	vim.g.gc_ghost_text_port = opts.port
+	local shell_command = "node " .. plugin_root .. "dist/index.js " .. nvim_socket
 
 	local function start_server()
 		vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {

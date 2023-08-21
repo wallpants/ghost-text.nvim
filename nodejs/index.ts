@@ -2,9 +2,8 @@ import { attach } from "neovim";
 import { startServer } from "./server";
 
 const socket = process.argv[2];
-const PORT = Number(process.argv[3]);
 
-async function isServerRunning() {
+async function isServerRunning(PORT: number) {
     try {
         await fetch(`http://localhost:${PORT}`);
         return true;
@@ -14,11 +13,9 @@ async function isServerRunning() {
 }
 
 async function main() {
-    if (await isServerRunning()) return;
     const nvim = attach({ socket });
-    const val = await nvim.getVar("gc_ghost_text_port");
-    console.log("typeof val: ", typeof val);
-    console.log("val: ", val);
+    const PORT = Number(await nvim.getVar("gc_ghost_text_port"));
+    if (await isServerRunning(PORT)) return;
     await startServer(nvim, PORT);
 }
 
