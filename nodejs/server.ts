@@ -6,9 +6,7 @@ import { type GhostMessage, type NeovimNotificationArgs } from "./types";
 
 const RPC_EVENTS = ["ghost-text-change", "ghost-buffer-delete"] as const;
 
-export async function startServer(nvim: NeovimClient, PORT: number) {
-    await nvim.lua('print("starting GhostText server")');
-
+export function startServer(nvim: NeovimClient, PORT: number) {
     const server = createServer((_req, res) => {
         res.writeHead(200, {
             "Content-Type": "application/json",
