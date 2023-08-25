@@ -1,3 +1,7 @@
+export type PluginProps = {
+    port: number;
+};
+
 export type NeovimNotificationArgs = {
     id: number;
     match: string;
@@ -6,10 +10,14 @@ export type NeovimNotificationArgs = {
     event: string;
 };
 
-export type GhostMessage = {
+export type GhostClientMessage = {
     title: string;
     url: string;
     syntax: string;
     text: string;
     selections: Array<{ start: number; end: number }>;
+};
+
+export type WsMessage = {
+    text: string;
 };

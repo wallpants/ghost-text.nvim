@@ -2,18 +2,23 @@ import { createServer } from "http";
 import { type NeovimClient } from "neovim";
 import { type AsyncBuffer } from "neovim/lib/api/Buffer";
 import { WebSocketServer } from "ws";
-import { type GhostMessage, type NeovimNotificationArgs } from "./types";
+import {
+    type GhostClientMessage,
+    type NeovimNotificationArgs,
+    type PluginProps,
+    type WsMessage,
+} from "./types";
 
-const RPC_EVENTS = ["ghost-text-change", "ghost-buffer-delete"] as const;
+const RPC_EVENTS = ["ghost-text-changed", "ghost-buffer-delete"] as const;
 
-export function startServer(nvim: NeovimClient, PORT: number) {
+export function startServer(nvim: NeovimClient, props: PluginProps) {
     const server = createServer((_req, res) => {
         res.writeHead(200, {
             "Content-Type": "application/json",
         }).end(
             JSON.stringify({
                 ProtocolVersion: 1,
-                WebSocketPort: PORT,
+                WebSocketPort: props.port,
             }),
         );
     });
@@ -32,10 +37,11 @@ export function startServer(nvim: NeovimClient, PORT: number) {
                 event: (typeof RPC_EVENTS)[number],
                 [_arg]: NeovimNotificationArgs[],
             ) => {
-                if (event === "ghost-text-change") {
+                if (event === "ghost-text-changed") {
                     // set browser lines on buffer change
                     const text = (await buff?.lines)?.join("\n") ?? "";
-                    ws.send(JSON.stringify({ text }));
+                    const message: WsMessage = { text };
+                    ws.send(JSON.stringify(message));
                 }
 
                 if (event === "ghost-buffer-delete") {
@@ -52,7 +58,7 @@ export function startServer(nvim: NeovimClient, PORT: number) {
         });
 
         ws.on("message", async (data) => {
-            const message = JSON.parse(String(data)) as GhostMessage;
+            const message = JSON.parse(String(data)) as GhostClientMessage;
 
             if (!buff) {
                 // create buff on first message
@@ -71,5 +77,5 @@ export function startServer(nvim: NeovimClient, PORT: number) {
         });
     });
 
-    server.listen(PORT);
+    server.listen(props.port);
 }

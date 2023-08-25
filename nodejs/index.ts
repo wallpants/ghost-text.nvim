@@ -1,22 +1,20 @@
 import { attach } from "neovim";
 import { startServer } from "./server";
+import { type PluginProps } from "./types";
 
 const socket = process.argv[2];
 
-async function isServerRunning(PORT: number) {
+async function killExisting(PORT: number) {
     try {
-        await fetch(`http://localhost:${PORT}`);
-        return true;
-    } catch (e) {
-        return false;
-    }
+        await fetch(`http://localhost:${PORT}`, { method: "POST" });
+    } catch (e) {}
 }
 
 async function main() {
     const nvim = attach({ socket });
-    const PORT = Number(await nvim.getVar("ghost_text_port"));
-    if (await isServerRunning(PORT)) return;
-    startServer(nvim, PORT);
+    const props = (await nvim.getVar("ghost_text_props")) as PluginProps;
+    await killExisting(props.port);
+    startServer(nvim, props);
 }
 
 void main();
