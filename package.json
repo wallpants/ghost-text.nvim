@@ -4,11 +4,15 @@
   "author": "Gual Casas",
   "license": "MIT",
   "description": "",
+  "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "build": "tsup",
+    "build": "rm -rf dist && ncc build nodejs/index.ts -m",
     "lint": "eslint \"**/*.ts*\"",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "neovim": "^4.10.1",
@@ -20,11 +24,11 @@
     "@types/ws": "^8.5.5",
     "@typescript-eslint/eslint-plugin": "6.3.0",
     "@typescript-eslint/parser": "6.3.0",
+    "@vercel/ncc": "^0.36.1",
     "eslint": "8.46.0",
     "husky": "^8.0.0",
     "prettier": "3.0.1",
     "prettier-plugin-organize-imports": "3.2.3",
-    "tsup": "^7.2.0",
     "typescript": "^5.1.6"
   }
 }

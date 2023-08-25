@@ -1,13 +1,22 @@
 {
   "compilerOptions": {
-    "checkJs": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "moduleResolution": "NodeNext",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
     "skipLibCheck": true,
+    "checkJs": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* Linting */
     "strict": true,
-    "target": "ES2021"
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["**/*", ".eslintrc.cjs"],
-  "exclude": ["node_modules"]
+  "include": ["nodejs", ".eslintrc.cjs", "prettier.config.cjs"]
 }
