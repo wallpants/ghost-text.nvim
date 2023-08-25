@@ -13,7 +13,13 @@ import {
 const RPC_EVENTS = ["ghost-text-changed", "ghost-buffer-delete"] as const;
 
 export function startServer(nvim: NeovimClient, props: PluginProps) {
-    const server = createServer((_req, res) => {
+    const server = createServer((req, res) => {
+        if (req.method === "POST") {
+            res.writeHead(200).end();
+            server.close();
+            return;
+        }
+
         res.writeHead(200, {
             "Content-Type": "application/json",
         }).end(
