@@ -1,4 +1,5 @@
 import { createServer } from "http";
+import { minimatch } from "minimatch";
 import { type NeovimClient } from "neovim";
 import { type AsyncBuffer } from "neovim/lib/api/Buffer";
 import { WebSocketServer } from "ws";
@@ -26,7 +27,7 @@ export function startServer(nvim: NeovimClient, props: PluginProps) {
     const wss = new WebSocketServer({ server });
 
     wss.on("connection", async (ws, _req) => {
-        let buff: AsyncBuffer | null = null;
+        let buffer: AsyncBuffer | null = null;
         for (const event of RPC_EVENTS) {
             await nvim.subscribe(event);
         }
@@ -39,7 +40,7 @@ export function startServer(nvim: NeovimClient, props: PluginProps) {
             ) => {
                 if (event === "ghost-text-changed") {
                     // set browser lines on buffer change
-                    const text = (await buff?.lines)?.join("\n") ?? "";
+                    const text = (await buffer?.lines)?.join("\n") ?? "";
                     const message: WsMessage = { text };
                     ws.send(JSON.stringify(message));
                 }
@@ -51,7 +52,7 @@ export function startServer(nvim: NeovimClient, props: PluginProps) {
         );
 
         ws.on("close", async () => {
-            buff = null;
+            buffer = null;
             for (const event of RPC_EVENTS) {
                 await nvim.unsubscribe(event);
             }
@@ -60,16 +61,25 @@ export function startServer(nvim: NeovimClient, props: PluginProps) {
         ws.on("message", async (data) => {
             const message = JSON.parse(String(data)) as GhostClientMessage;
 
-            if (!buff) {
+            if (!buffer) {
                 // create buff on first message
-                buff = (await nvim.createBuffer(true, true)) as AsyncBuffer;
-                buff.name = message.url + ".ghost-text";
-                nvim.buffer = buff;
+                buffer = (await nvim.createBuffer(true, true)) as AsyncBuffer;
+                buffer.name = message.url + ".ghost-text";
+                for (const [filetype, domains] of Object.entries(
+                    props.filetype_domains,
+                )) {
+                    for (const domain of domains) {
+                        if (minimatch(message.url, domain)) {
+                            await buffer.setOption("filetype", filetype);
+                        }
+                    }
+                }
+                nvim.buffer = buffer;
             }
 
             // set buffer lines on browser change
             const lines = message.text.split("\n");
-            await buff.setLines(lines, {
+            await buffer.setLines(lines, {
                 start: 0,
                 end: -1,
                 strictIndexing: true,

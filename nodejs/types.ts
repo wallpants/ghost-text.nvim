@@ -1,5 +1,6 @@
 export type PluginProps = {
     port: number;
+    filetype_domains: { [filetype: string]: string[] };
 };
 
 export type NeovimNotificationArgs = {

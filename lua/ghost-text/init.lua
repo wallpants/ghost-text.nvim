@@ -8,6 +8,7 @@ M.default_opts = {
 	autostart = true,
 	port = 4001,
 	log_output = Types.LOG_OUTPUT.none,
+	filetype_domains = {},
 }
 
 ---@param opts opts
@@ -18,6 +19,7 @@ M.setup = function(opts)
 		---@type plugin_props
 		vim.g.ghost_text_props = {
 			port = opts.port,
+			filetype_domains = opts.filetype_domains,
 		}
 
 		vim.api.nvim_create_autocmd({ "TextChangedI", "TextChanged" }, {
