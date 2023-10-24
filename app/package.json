@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "scripts": {
+    "format": "prettier **.{ts,tsx,css} -w",
+    "lint": "tsc && eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "dev": "bun --hot run src/index.ts",
+    "start": "NODE_ENV=production; bun run src/index.ts"
+  },
+  "dependencies": {
+    "bunvim": "^1.1.2",
+    "minimatch": "^9.0.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "bun-types": "latest",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "typescript": "^5.2.2"
+  }
+}
