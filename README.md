@@ -9,7 +9,7 @@ Powered by [Bunvim](https://github.com/wallpants/bunvim).
 
 ## Demo
 
-![Demo](https://raw.githubusercontent.com/wallpants/gifs/main/ghost-text.nvim/demo.gif)
+![demo.gif](https://raw.githubusercontent.com/wallpants/gifs/main/ghost-text.nvim/demo.gif)
 
 ## Requirements
 
