@@ -1,49 +1,13 @@
 local M = {}
 
----@type config
-M.config = {
-	port = 4001,
-	silent = false,
-	autostart = true,
-	filetype_domains = {
-		markdown = { "*.openai.com*", "*.reddit.com*", "*.github.com*" },
-	},
-}
+M.get_client_channel = function()
+	for _, chan in ipairs(vim.api.nvim_list_chans()) do
+		if chan.client and chan.client.name == "github-preview" then
+			return chan.id
+		end
+	end
 
-M.validate_config = function()
-	vim.validate({
-		port = { M.config.port, "number" },
-		silent = { M.config.silent, "boolean" },
-		log_level = {
-			M.config.log_level,
-			function(log_level)
-				local is_nil = type(log_level) == "nil"
-				local is_valid = (type(log_level) == "string") and ((log_level == "debug") or (log_level == "verbose"))
-				return is_nil or is_valid
-			end,
-			'log_level must be nil, "debug" or "verbose"',
-		},
-		filetype_domains = {
-			M.config.filetype_domains,
-			function(var)
-				if type(var) == "table" then
-					for k, v in pairs(var) do
-						if type(k) == "string" and type(v) == "table" then
-							for _, item in ipairs(v) do
-								if type(item) ~= "string" then
-									return false
-								end
-							end
-						else
-							return false
-						end
-					end
-					return true
-				end
-				return false
-			end,
-		},
-	})
+	return nil
 end
 
 ---@param log_level string

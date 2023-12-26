@@ -69,7 +69,7 @@ local function check_current_commit_hash()
 end
 
 M.check = function()
-	vim.health.start("github-preview.nvim")
+	vim.health.start("ghost-text.nvim")
 	check_platform()
 	check_current_commit_hash()
 	check_bun_version()

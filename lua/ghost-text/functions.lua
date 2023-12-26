@@ -1,8 +1,6 @@
 local Utils = require("github-preview.utils")
 local M = {}
 
-M.job_id = nil
-
 M.start = function()
 	vim.notify("ghost-text: init", vim.log.levels.INFO)
 
@@ -13,11 +11,24 @@ M.start = function()
 	local __filename = debug.getinfo(1, "S").source:sub(2)
 	local plugin_root = vim.fn.fnamemodify(__filename, ":p:h:h:h") .. "/"
 
-	local cmd = "bun start"
+	local command = "bun run start"
 
-	M.job_id = vim.fn.jobstart(cmd, {
-		cwd = plugin_root .. "app",
+	---@type env
+	local env = { IS_DEV = false }
+
+	if Utils.config.log_level then
+		command = "bun --hot run start"
+		env.IS_DEV = true
+		env.LOG_LEVEL = Utils.config.log_level
+	end
+
+	Utils.job_id = vim.fn.jobstart(command, {
+		cwd = plugin_root,
 		stdin = "null",
+		on_exit = Utils.log_exit(env.LOG_LEVEL),
+		on_stdout = Utils.log_job(env.LOG_LEVEL),
+		on_stderr = Utils.log_job(env.LOG_LEVEL),
+		env = env,
 	})
 end
 
