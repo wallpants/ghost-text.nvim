@@ -48,7 +48,7 @@ require('ghost-text').setup({
     -- map url patterns to filetypes to set the buffer to
     -- matching done by https://github.com/isaacs/minimatch
     filetype_domains = {
-        markdown = { "*.openai.com*", "*.reddit.com*" },
+        markdown = { "*.openai.com*", "*.reddit.com*", "*.github.com*" },
     },
 
 })
