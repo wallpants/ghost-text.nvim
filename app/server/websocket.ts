@@ -10,11 +10,9 @@ import {
     type WebsocketData,
     type WsMessage,
 } from "../types";
+import { GhostText } from "../ghost-text";
 
-export function websocketHandler(
-    init: PluginInit,
-    nvim: Nvim<CustomEvents>,
-): WebSocketHandler<WebsocketData> {
+export function websocketHandler(app: GhostText): WebSocketHandler<WebsocketData> {
     return {
         open(webSocket) {
             webSocket.data = {
@@ -29,21 +27,21 @@ export function websocketHandler(
         },
         async message(webSocket, message: string) {
             const ghostMessage = JSON.parse(message) as GhostClientMessage;
-            nvim.logger?.verbose({ INCOMING_WEBSOCKET: ghostMessage });
+            app.nvim.logger?.verbose({ INCOMING_WEBSOCKET: ghostMessage });
 
             if (webSocket.data.buffer === null) {
                 // create buff on first message
-                webSocket.data.buffer = await nvim.call("nvim_create_buf", [true, true]);
+                webSocket.data.buffer = await app.nvim.call("nvim_create_buf", [true, true]);
 
-                await nvim.call("nvim_buf_set_name", [
+                await app.nvim.call("nvim_buf_set_name", [
                     webSocket.data.buffer,
                     ghostMessage.url + ".ghost-text",
                 ]);
 
                 let customFiletype: string | undefined;
 
-                for (const [filetype, domains] of Object.entries(init.filetype_domains)) {
-                    nvim.logger?.info("matches", { filetype, domains });
+                for (const [filetype, domains] of Object.entries(app.config.filetype_domains)) {
+                    app.nvim.logger?.info("matches", { filetype, domains });
                     for (const domain of domains) {
                         if (minimatch(ghostMessage.url, domain)) {
                             customFiletype = filetype;

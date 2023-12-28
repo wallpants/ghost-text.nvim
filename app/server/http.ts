@@ -1,8 +1,9 @@
 import { type Server } from "bun";
 import { type Nvim } from "bunvim";
 import { type PluginInit } from "../types";
+import { GhostText } from "../ghost-text";
 
-export function httpHandler(init: PluginInit, nvim: Nvim) {
+export function httpHandler(app: GhostText) {
     return (req: Request, server: Server) => {
         const upgradedToWs = server.upgrade(req, {
             data: {}, // this data is available in socket.data
