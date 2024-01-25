@@ -54,4 +54,4 @@ jobs:
             - name: Release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: bun run semantic-release
+              run: bun run --bun semantic-release
