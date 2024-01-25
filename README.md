@@ -17,69 +17,79 @@ Powered by [Bunvim](https://github.com/wallpants/bunvim).
 2. [Bun](https://bun.sh)
 3. [Neovim](https://neovim.io)
 
-## Installation
+## 📦 Installation
 
-Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+Using <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a>
 
 ```lua
 {
-    'wallpants/ghost-text.nvim',
+    "wallpants/ghost-text.nvim",
     opts = {
         -- config goes here
-    }
+    },
 }
 ```
 
-## Setup
+## ⚙️ Configuration
 
-`setup` must be called for the plugin to be loaded. Some plugin managers handle this for you.
+All values are optional, you can leave empty to use default values.
+Any values you specify will be deeply merged with this dictionary.
 
 ```lua
-require('ghost-text').setup({
-    -- these are the default values, any values
-    -- you specify will be merged with this dictionary
-
+require("ghost-text").setup({
     -- port used by local server
     port = 4001,
 
-    -- whether to execute :GhostTextStart on Neovim start
-    autostart = false,
+    -- automatically start server
+    -- if "false", you must manually call ":GhostTextStart" to start server
+    autostart = true,
 
     -- map url patterns to filetypes to set the buffer to
     -- matching done by https://github.com/isaacs/minimatch
     filetype_domains = {
-        markdown = { "*.openai.com*", "*.reddit.com*" },
+      -- markdown = { "*.openai.com*", "*.github.com*" },
     },
 
+    -- for debugging
+    -- nil | "debug" | "verbose"
+    log_level = nil,
 })
 ```
 
-## Usage
+## 💻 Usage
 
 Usually the steps to follow are:
 
-1. Open Neovim
-2. Start `:GhostTextStart`
-   - If you set `autostart = true` in your config, you can skip this step.
-3. On your browser activate the extension
-4. A synced buffer is created in Neovim
-   - The buffer is created in the Neovim instance where `:GhostTextStart` was last called.
+1. open Neovim (**ghost-text.nvim** automatically starts listenning for connections)
+2. on your browser select an input field and activate the extension
+3. a synced buffer is created in Neovim
+   - The buffer is created in the Neovim instance where **ghost-text.nvim** was most recently started.
      If you want a specific Neovim instance to handle this, call `:GhostTextStart` in that
-     instance before activating the extension in your browser.
+     Neovim instance before activating the extension in your browser.
 
 The synced buffer will sync changes bidirectionally. Any changes in the browser input will update
 Neovim's buffer. Any changes to the buffer will update the browser input.
 
 ### `:GhostTextStart`
 
-Start service. If an instance of **ghost-text.nvim** is already running,
-be it by the current Neovim instance or another, the older **ghost-text.nvim**
-is unalived in favour of the younger one.
+**Start** listenning for connections. Any previously created **ghost-text.nvim** instances are killed.
 
-### `:GhostTextStop`
+You should only call `:GhostTextStart` if you're lazy-loading the plugin or if you want
+a specific Neovim instance to handle the connection.
 
-Stops the service.
+## 💤 lazy-loading
 
-### `:GhostTextToggle`
+I recommend you don't lazy-load this plugin as having it autostart is a better experience.
+That being said, you can configure <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a>
+to lazyload **ghost-text.nvim** with the following setup.
 
-Starts the service if not running or stops it if it's already running.
+```lua
+{
+    "wallpants/ghost-text.nvim",
+    cmd = { "GhostTextStart" },
+    opts = {
+        autostart = false
+        -- ...your config
+    },
+}
+```
