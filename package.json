@@ -1,5 +1,6 @@
 {
   "name": "ghost-text.nvim",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "author": "wallpants",
@@ -13,16 +14,48 @@
       "main"
     ]
   },
-  "scripts": {
-    "commit": "cz"
-  },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "@commitlint/cz-commitlint"
     }
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "body-max-line-length": [
+        0
+      ]
+    }
+  },
+  "scripts": {
+    "commit": "cz",
+    "format": "prettier **/*.{md,ts,tsx,css} -w",
+    "logs": "bunvim logs ghost-text",
+    "lint": "tsc -p ./app/tsconfig.json && eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "start": "bun run app/index.ts"
+  },
+  "dependencies": {
+    "bunvim": "1.1.7",
+    "minimatch": "^9.0.3",
+    "valibot": "^0.25.0"
+  },
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0",
-    "semantic-release": "^22.0.5"
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
+    "@commitlint/cz-commitlint": "^18.4.4",
+    "@types/eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.18.1",
+    "bun-types": "latest",
+    "commitizen": "^4.3.0",
+    "commitlint": "^18.4.4",
+    "eslint": "^8.56.0",
+    "inquirer": "8",
+    "prettier": "^3.2.2",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "semantic-release": "^23.0.0",
+    "typescript": "^5.3.3"
   }
 }

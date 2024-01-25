@@ -1,9 +1,10 @@
 import { type Server } from "bun";
-import { type Nvim } from "bunvim";
-import { type PluginInit } from "../types";
+import { type GhostText } from "../ghost-text";
 
-export function httpHandler(init: PluginInit, nvim: Nvim) {
-    return (req: Request, server: Server) => {
+export const UNALIVE_URL = "/unalive";
+
+export function httpHandler(app: GhostText) {
+    return async (req: Request, server: Server) => {
         const upgradedToWs = server.upgrade(req, {
             data: {}, // this data is available in socket.data
             headers: {},
@@ -14,17 +15,20 @@ export function httpHandler(init: PluginInit, nvim: Nvim) {
             return;
         }
 
-        if (req.method === "POST") {
+        const { pathname } = new URL(req.url);
+
+        app.nvim.logger?.verbose({ HTTP: pathname });
+
+        if (pathname === UNALIVE_URL) {
             // This endpoint is called when starting the service to kill
             // ghost-text instances started by other nvim instances
-            nvim.detach();
-            process.exit(0);
+            await app.goodbye();
         }
 
         return new Response(
             JSON.stringify({
                 ProtocolVersion: 1,
-                WebSocketPort: init.port,
+                WebSocketPort: app.config.port,
             }),
             {
                 headers: {
