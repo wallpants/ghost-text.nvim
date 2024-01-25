@@ -31,7 +31,7 @@
   },
   "scripts": {
     "commit": "cz",
-    "format": "prettier **/*.{md,ts,tsx,css} -w",
+    "format": "prettier **/*.{md,ts} -w",
     "logs": "bunvim logs ghost-text",
     "lint": "tsc -p ./app/tsconfig.json && eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
     "start": "bun run app/index.ts"
