@@ -1,10 +1,11 @@
 {
   "name": "ghost-text.nvim",
+  "author": "wallpants",
   "type": "module",
   "version": "0.0.0",
-  "private": true,
-  "author": "wallpants",
   "license": "MIT",
+  "description": "Use Neovim in your browser",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/wallpants/ghost-text.nvim.git"
@@ -42,7 +43,6 @@
     "valibot": "^0.25.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.4",
     "@commitlint/config-conventional": "^18.4.4",
     "@commitlint/cz-commitlint": "^18.4.4",
     "@types/eslint": "^8.56.0",
@@ -52,7 +52,6 @@
     "commitizen": "^4.3.0",
     "commitlint": "^18.4.4",
     "eslint": "^8.56.0",
-    "inquirer": "8",
     "prettier": "^3.2.2",
     "prettier-plugin-organize-imports": "^3.2.4",
     "semantic-release": "^23.0.0",
