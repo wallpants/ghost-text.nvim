@@ -7,11 +7,9 @@ Use Neovim in the browser.
 
 Powered by [Bunvim](https://github.com/wallpants/bunvim).
 
-## Demo
+https://github.com/wallpants/ghost-text.nvim/assets/47203170/1fc9f37a-ed7c-4f69-81e7-fa50d5d74ff2
 
-![demo.gif](https://raw.githubusercontent.com/wallpants/gifs/main/ghost-text.nvim/demo.gif)
-
-## Requirements
+## ✅ Requirements
 
 1. [GhostText browser extension](https://ghosttext.fregante.com/)
 2. [Bun](https://bun.sh)
