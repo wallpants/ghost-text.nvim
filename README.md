@@ -7,7 +7,7 @@ Use Neovim in the browser.
 
 Powered by [Bunvim](https://github.com/wallpants/bunvim).
 
-https://github.com/wallpants/ghost-text.nvim/assets/47203170/1fc9f37a-ed7c-4f69-81e7-fa50d5d74ff2
+https://github.com/wallpants/ghost-text.nvim/assets/47203170/6976a5e3-3ac4-44bb-a45b-8b5dc5bd894f
 
 ## ✅ Requirements
 
