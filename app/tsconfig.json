@@ -5,7 +5,6 @@
     "target": "ESNext",
     "moduleResolution": "Bundler",
     "moduleDetection": "force",
-    "types": ["bun-types"],
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "composite": true,
@@ -30,6 +29,6 @@
     "noUnusedParameters": true,
     "isolatedModules": true,
     "checkJs": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+  },
 }
