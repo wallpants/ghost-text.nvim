@@ -45,10 +45,10 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^18.4.4",
     "@commitlint/cz-commitlint": "^18.4.4",
+    "@types/bun": "latest",
     "@types/eslint": "^8.56.0",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.18.1",
-    "bun-types": "latest",
     "commitizen": "^4.3.0",
     "commitlint": "^18.4.4",
     "eslint": "^8.56.0",
