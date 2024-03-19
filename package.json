@@ -34,7 +34,9 @@
     "commit": "cz",
     "format": "prettier **/*.{md,ts} -w",
     "logs": "bunvim logs ghost-text",
-    "lint": "tsc -p ./app/tsconfig.json && eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "typecheck": "tsc -p ./app/tsconfig.json",
+    "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "check": "bun run typecheck && bun run lint",
     "start": "bun run app/index.ts"
   },
   "dependencies": {
@@ -43,14 +45,14 @@
     "valibot": "^0.25.0"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^18.4.4",
-    "@commitlint/cz-commitlint": "^18.4.4",
+    "@commitlint/config-conventional": "^19.1.0",
+    "@commitlint/cz-commitlint": "^19.2.0",
     "@types/bun": "latest",
     "@types/eslint": "^8.56.0",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.18.1",
     "commitizen": "^4.3.0",
-    "commitlint": "^18.4.4",
+    "commitlint": "^19.2.0",
     "eslint": "^8.56.0",
     "prettier": "^3.2.2",
     "prettier-plugin-organize-imports": "^3.2.4",
