@@ -3,7 +3,7 @@ local M = {}
 local function check_platform()
 	local function get_platform()
 		local os_name = vim.loop.os_uname().sysname
-		if os_name == "Windows" then
+		if os_name == "Windows_NT" then
 			return "win"
 		elseif os_name == "Darwin" then
 			local arch = vim.fn.system("arch")
@@ -59,8 +59,7 @@ local function check_bun_version()
 end
 
 local function check_current_commit_hash()
-	local result =
-		run_command("git -C $(dirname " .. vim.fn.shellescape(vim.fn.expand("%:p")) .. ") rev-parse --short HEAD")
+	local result = run_command("git -C " .. debug.getinfo(1).source:sub(2):match("(.*/)") .. " rev-parse --short HEAD")
 	if result == nil then
 		vim.health.error("failed to read git-commit hash")
 	else
