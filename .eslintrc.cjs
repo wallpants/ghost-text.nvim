@@ -15,6 +15,7 @@ module.exports = {
     ],
     rules: {
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true }],
         "@typescript-eslint/consistent-type-definitions": ["error", "type"],
         "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
         "@typescript-eslint/consistent-type-imports": [
