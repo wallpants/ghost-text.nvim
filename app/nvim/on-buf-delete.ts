@@ -11,7 +11,7 @@ export async function onBufDelete(app: GhostText) {
         app.buffer = null;
 
         // restart server to close all active websocket connections
-        app.server.stop(true);
+        void app.server.stop(true);
         app.server = startServer(app);
     }
 
