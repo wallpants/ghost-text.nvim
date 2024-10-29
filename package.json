@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "bunvim": "1.1.12",
-    "minimatch": "^9.0.4",
+    "minimatch": "^10.0.1",
     "valibot": "^0.30.0"
   },
   "devDependencies": {
