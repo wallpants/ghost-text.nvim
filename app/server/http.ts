@@ -7,7 +7,7 @@ export function httpHandler(app: GhostText) {
     return async (req: Request, server: Server) => {
         const upgradedToWs = server.upgrade(req, {
             data: {}, // this data is available in socket.data
-            headers: {},
+            // headers: {},
         });
         if (upgradedToWs) {
             // If client (browser) requested to upgrade connection to websocket
